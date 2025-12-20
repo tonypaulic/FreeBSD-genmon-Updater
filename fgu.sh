@@ -20,7 +20,7 @@ FGU2="/tmp/fgu2.sh"
 ##############################################################
 
 # create secondary execution file to run update script and refresh plugin
-cat << EOF > $YUP2
+cat << EOF > $FGU2
 #!/bin/bash
 sudo freebsd-update install
 sudo pkg upgrade
@@ -30,7 +30,7 @@ read
 xfce4-panel --plugin-event=genmon-$(xfconf-query -c xfce4-panel -lv | grep yup | awk '{print $1}' | tr -dc '0-9'):refresh:bool:true
 exit 0
 EOF
-chmod +x $YUP2
+chmod +x $FGU2
 
 # get updates informtation
 FUPS=0

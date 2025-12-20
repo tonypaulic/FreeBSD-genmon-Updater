@@ -48,13 +48,14 @@ if [ $FUPS -eq 1 || $PUPS -eq 1 ]; then
 	notify-send -i $ICON_NOTIFY "System Status" "Updates are available"
 else
 	ICON=$ICON_UPTODATE
-	TOOL="System is up to date"
+	TOOL="<b>System is up to date</b>\n\n"
+	TOOL+="$(pkg stats | head -3)"
 fi
 
 # do the genmon
 echo "<icon>$ICON</icon>"
 echo -e "<iconclick>xfce4-terminal -T 'Sysytem Update' --color-bg '#000000' --color-text '#3f8ae5' --icon update -e $FGU2</iconclick>"
-echo "<tool>$TOOL</tool>"
+echo -e "<tool>$TOOL</tool>"
 	
 exit 0
 

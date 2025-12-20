@@ -49,7 +49,7 @@ if [ $FUPS -eq 1 || $PUPS -eq 1 ]; then
 else
 	ICON=$ICON_UPTODATE
 	TOOL="<b>System is up to date</b>\n\n"
-	TOOL+="$(pkg stats | head -3)"
+	TOOL+="<small>$(pkg stats | head -3)</small>"
 fi
 
 # do the genmon

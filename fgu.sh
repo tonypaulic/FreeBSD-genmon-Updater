@@ -1,0 +1,60 @@
+#!/bin/bash
+# genmon update notifier and processor
+# requires: xfce4-genmon-plugin
+
+##############################################################
+# CONFIGURABLE ITEMS
+#
+# panel icon to use when updates are available
+ICON_UPDATES_AVAILABLE="freebsd-ua"
+#
+# panel icon to use when system is up to date
+#
+ICON_UPTODATE="freebsd-nu"
+#
+# icon to use in notification bubble when notifying of updates
+ICON_NOTIFY="freebsd-ua"
+#
+# location of secondary execution file
+FGU2="/tmp/fgu2.sh"
+##############################################################
+
+# create secondary execution file to run update script and refresh plugin
+cat << EOF > $YUP2
+#!/bin/bash
+sudo freebsd-update install
+sudo pkg upgrade
+echo 
+echo \"===== Done - Press enter to exit =====\"
+read
+xfce4-panel --plugin-event=genmon-$(xfconf-query -c xfce4-panel -lv | grep yup | awk '{print $1}' | tr -dc '0-9'):refresh:bool:true
+exit 0
+EOF
+chmod +x $YUP2
+
+# get updates informtation
+FUPS=0
+PUPS=0
+sudo freebsd-update fetch >  /dev/null
+sudo freebsd-update updatesready > /dev/null
+[[ $? -ne 2 ]] && FUPS=1
+NUM=$(pkg version -vRL= | grep '<' | wc -l)
+[[ $NUM -gt 0 ]] && PUPS=1
+
+# set genmon icons and tooltip, and notify if updates exist
+if [ $FUPS -eq 1 || $PUPS -eq 1 ]; then
+	ICON=$ICON_UPDATES_AVAILABLE
+	TOOL="Updates are available"
+	notify-send -i $ICON_NOTIFY "System Status" "Updates are available"
+else
+	ICON=$ICON_UPTODATE
+	TOOL="System is up to date"
+fi
+
+# do the genmon
+echo "<icon>$ICON</icon>"
+echo -e "<iconclick>xfce4-terminal -T 'Sysytem Update' --color-bg '#000000' --color-text '#3f8ae5' --icon update -e $FGU2</iconclick>"
+echo "<tool>$TOOL</tool>"
+	
+exit 0
+

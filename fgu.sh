@@ -38,6 +38,7 @@ PUPS=0
 sudo freebsd-update fetch >  /dev/null
 sudo freebsd-update updatesready > /dev/null
 [[ $? -ne 2 ]] && FUPS=1
+sudo pkg update
 NUM=$(pkg version -vRL= | grep '<' | wc -l)
 [[ $NUM -gt 0 ]] && PUPS=1
 

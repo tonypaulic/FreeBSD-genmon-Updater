@@ -43,7 +43,7 @@ NUM=$(pkg version -vRL= | grep '<' | wc -l)
 [[ $NUM -gt 0 ]] && PUPS=1
 
 # set genmon icons and tooltip, and notify if updates exist
-if [ $FUPS -eq 1 || $PUPS -eq 1 ]; then
+if [[ $FUPS -eq 1 || $PUPS -eq 1 ]]; then
 	ICON=$ICON_UPDATES_AVAILABLE
 	TOOL="Updates are available"
 	notify-send -i $ICON_NOTIFY "System Status" "Updates are available"

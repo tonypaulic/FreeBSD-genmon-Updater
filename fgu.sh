@@ -27,7 +27,7 @@ sudo pkg upgrade
 echo 
 echo \"===== Done - Press enter to exit =====\"
 read
-xfce4-panel --plugin-event=genmon-$(xfconf-query -c xfce4-panel -lv | grep yup | awk '{print $1}' | tr -dc '0-9'):refresh:bool:true
+xfce4-panel --plugin-event=genmon-$(xfconf-query -c xfce4-panel -lv | grep fgu | awk '{print $1}' | tr -dc '0-9'):refresh:bool:true
 exit 0
 EOF
 chmod +x $FGU2

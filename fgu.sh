@@ -38,6 +38,7 @@ PUPS=0
 sudo freebsd-update fetch >  /dev/null
 sudo freebsd-update updatesready > /dev/null
 [[ $? -ne 2 ]] && FUPS=1
+
 sudo pkg update
 NUM=$(pkg version -vRL= | grep '<' | wc -l)
 [[ $NUM -gt 0 ]] && PUPS=1
@@ -45,12 +46,13 @@ NUM=$(pkg version -vRL= | grep '<' | wc -l)
 # set genmon icons and tooltip, and notify if updates exist
 if [[ $FUPS -eq 1 || $PUPS -eq 1 ]]; then
 	ICON=$ICON_UPDATES_AVAILABLE
-	TOOL="Updates are available"
+	TOOL="<b>Updates are available</b>\n\n"
+	TOOL+="<small>base = $FUPS\npkg  = $(pkg upgrade -n -q 2>/dev/null | grep "Number of" | awk -F': ' '{print $2}')</small>"
 	notify-send -i $ICON_NOTIFY "System Status" "Updates are available"
 else
 	ICON=$ICON_UPTODATE
 	TOOL="<b>System is up to date</b>\n\n"
-	TOOL+="<small>$(pkg stats | head -3)</small>"
+	TOOL+="<small>$(uname -sr)\n\n$(pkg stats | head -3)</small>"
 fi
 
 # do the genmon

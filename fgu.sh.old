@@ -23,9 +23,7 @@ FGU2="/tmp/fgu2.sh"
 cat << EOF > $FGU2
 #!/bin/bash
 sudo freebsd-update install
-for REPO in FreeBSD-ports FreeBSD-ports-kmods; do
-	sudo pkg upgrade -y -r "\$REPO"
-done
+sudo pkg upgrade
 echo 
 echo \"===== Done - Press enter to exit =====\"
 read
@@ -42,14 +40,14 @@ sudo freebsd-update updatesready > /dev/null
 [[ $? -ne 2 ]] && FUPS=1
 
 sudo pkg update
-NUM=$(pkg version -vRL= | grep '<' | wc -l)
+NUM=$(pkg version -vRL= | grep '<' | wc -l | awk '{print $1}')
 [[ $NUM -gt 0 ]] && PUPS=1
 
 # set genmon icons and tooltip, and notify if updates exist
 if [[ $FUPS -eq 1 || $PUPS -eq 1 ]]; then
 	ICON=$ICON_UPDATES_AVAILABLE
 	TOOL="<b>Updates are available</b>\n\n"
-	TOOL+="<small>base = $FUPS\npkg  = $NUM</small>"
+	TOOL+="<small>base = $FUPS\npkg  = $(pkg upgrade -n -q 2>/dev/null | grep "Number of" | awk -F': ' '{print $2}')</small>"
 	notify-send -i $ICON_NOTIFY "System Status" "Updates are available"
 else
 	ICON=$ICON_UPTODATE
@@ -63,3 +61,4 @@ echo -e "<iconclick>xfce4-terminal -T 'Sysytem Update' --color-bg '#000000' --co
 echo -e "<tool>$TOOL</tool>"
 	
 exit 0
+

@@ -34,13 +34,16 @@ exit 0
 EOF
 chmod +x $FGU2
 
-# get updates informtation
+# get freebsd updates informtation
 FUPS=0
 PUPS=0
-sudo freebsd-update fetch >  /dev/null
-sudo freebsd-update updatesready > /dev/null
-[[ $? -ne 2 ]] && FUPS=1
+sudo freebsd-update fetch
+FUR="$(sudo freebsd-update updatesready)"
+if echo "$FUR" | grep "updates available to install" > /dev/null; then
+	echo FUPS=1
+	fi
 
+# get pkg updates
 sudo pkg update
 NUM=$(pkg version -vRL= | grep '<' | wc -l)
 [[ $NUM -gt 0 ]] && PUPS=1

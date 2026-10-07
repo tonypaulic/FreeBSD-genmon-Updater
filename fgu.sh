@@ -19,6 +19,10 @@ ICON_NOTIFY="freebsd-ua"
 FGU2="/tmp/fgu2.sh"
 ##############################################################
 
+# For Tesitng - enable logging and debug
+#exec > >(tee -a /tmp/fgu_debug.log) 2>&1
+#set -x
+
 # create secondary execution file to run update script and refresh plugin
 cat << EOF > $FGU2
 #!/bin/bash

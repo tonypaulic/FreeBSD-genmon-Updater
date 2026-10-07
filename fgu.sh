@@ -23,9 +23,10 @@ FGU2="/tmp/fgu2.sh"
 cat << EOF > $FGU2
 #!/bin/bash
 sudo freebsd-update install
-for REPO in FreeBSD-ports FreeBSD-ports-kmods; do
-	sudo pkg upgrade -y -r "\$REPO"
-done
+	#for REPO in FreeBSD-ports FreeBSD-ports-kmods; do
+	#	sudo pkg upgrade -y -r "\$REPO"
+	#done
+sudo pkg upgrade
 echo 
 echo \"===== Done - Press enter to exit =====\"
 read
@@ -35,24 +36,25 @@ EOF
 chmod +x $FGU2
 
 # get freebsd updates informtation
-FUPS=0
-PUPS=0
+FREEBSD_UPDATES=0
+PKG_UPDATES=0
+
 sudo freebsd-update fetch
-FUR="$(sudo freebsd-update updatesready)"
-if echo "$FUR" | grep "updates available to install" > /dev/null; then
-	echo FUPS=1
+FREEBSD_UPDATES_READY="$(sudo freebsd-update updatesready)"
+if echo "$FREEBSD_UPDATES_READY" | grep "updates available to install" > /dev/null; then
+	echo FREEBSD_UPDATES=1
 	fi
 
 # get pkg updates
 sudo pkg update
-NUM=$(pkg version -vRL= | grep '<' | wc -l)
-[[ $NUM -gt 0 ]] && PUPS=1
+PKG_UPDATES=$(pkg version -vRL= | grep '<' | wc -l)
+[[ $PKG_UPDATES -gt 0 ]] && FREEBSD_UPDATES=1
 
 # set genmon icons and tooltip, and notify if updates exist
-if [[ $FUPS -eq 1 || $PUPS -eq 1 ]]; then
+if [[ $FREEBSD_UPDATES -eq 1 || $PKG_UPDATES -eq 1 ]]; then
 	ICON=$ICON_UPDATES_AVAILABLE
 	TOOL="<b>Updates are available</b>\n\n"
-	TOOL+="<small>base = $FUPS\npkg  = $NUM</small>"
+	TOOL+="<small>base = $FREEBSD_UPDATES\npkg  = $NUM</small>"
 	notify-send -i $ICON_NOTIFY "System Status" "Updates are available"
 else
 	ICON=$ICON_UPTODATE

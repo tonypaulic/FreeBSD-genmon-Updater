@@ -66,7 +66,7 @@ fi
 # do the genmon
 printf '<icon>%s</icon>\n' "$ICON"
 printf '<iconclick>xfce4-terminal -T %s --color-bg %s --color-text %s --icon update -e %s</iconclick>\n' \
-	"'System Update'" "'#000000'" "'#3f8ae5'" "$FGU2"
+	"'System Update'" "'#000000'" "'#FF0000'" "$FGU2"
 printf '<tool>%b</tool>\n' "$TOOL"
 
 exit 0

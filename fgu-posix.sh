@@ -38,7 +38,7 @@ FREEBSD_UPDATES=No
 PKG_UPDATES=0
 
 # get freebsd updates information
-sudo freebsd-update --not-running-from-cron fetch > /dev/null
+#sudo freebsd-update --not-running-from-cron fetch > /dev/null
 FREEBSD_UPDATES_READY=$(sudo freebsd-update updatesready)
 if ! echo "$FREEBSD_UPDATES_READY" | grep -q "No updates are available to install"; then
 	FREEBSD_UPDATES=Yes
@@ -67,7 +67,7 @@ fi
 # do the genmon
 printf '<icon>%s</icon>\n' "$ICON"
 printf '<iconclick>xfce4-terminal -T %s --color-bg %s --color-text %s --icon update -e %s</iconclick>\n' \
-	"'System Update'" "'#000000'" "'#FF0000'" "$FGU2"
+	"'System Update'" "'#000000'" "'#FF7F7F'" "$FGU2"
 printf '<tool>%b</tool>\n' "$TOOL"
 
 exit 0

@@ -18,11 +18,6 @@ ICON_NOTIFY="freebsd-ua"
 FGU2="/tmp/fgu2.sh"
 ##############################################################
 
-# For testing - enable logging and debug (bash-only process substitution
-# removed; this POSIX equivalent logs stderr only)
-#exec 2>>/tmp/fgu_debug.log
-#set -x
-
 # find the genmon plugin id for the refresh event
 PLUGIN_ID=$(xfconf-query -c xfce4-panel -lv | grep fgu | awk '{print $1}' | tr -dc '0-9')
 
@@ -46,7 +41,6 @@ FREEBSD_UPDATES=0
 PKG_UPDATES=0
 
 # get freebsd updates information
-# (stdout suppressed so it does not pollute genmon's output)
 sudo freebsd-update --not-running-from-cron fetch > /dev/null
 FREEBSD_UPDATES_READY=$(sudo freebsd-update updatesready)
 if ! echo "$FREEBSD_UPDATES_READY" | grep -q "No updates are available to install"; then

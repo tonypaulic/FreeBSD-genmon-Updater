@@ -25,9 +25,6 @@ PLUGIN_ID=$(xfconf-query -c xfce4-panel -lv | grep fgu | awk '{print $1}' | tr -
 cat << EOF > "$FGU2"
 #!/bin/sh
 sudo freebsd-update install
-	#for REPO in FreeBSD-ports FreeBSD-ports-kmods; do
-	#	sudo pkg upgrade -y -r "\$REPO"
-	#done
 sudo pkg upgrade
 echo
 echo "===== Done - Press enter to exit ====="

@@ -34,28 +34,29 @@ exit 0
 EOF
 chmod +x "$FGU2"
 
-FREEBSD_UPDATES=0
+FREEBSD_UPDATES=No
 PKG_UPDATES=0
 
 # get freebsd updates information
-sudo freebsd-update --not-running-from-cron fetch > /dev/null
+#sudo freebsd-update --not-running-from-cron fetch > /dev/null
 FREEBSD_UPDATES_READY=$(sudo freebsd-update updatesready)
 if ! echo "$FREEBSD_UPDATES_READY" | grep -q "No updates are available to install"; then
-	FREEBSD_UPDATES=1
+	FREEBSD_UPDATES=Yes
 fi
 
 # get pkg updates
 sudo pkg update > /dev/null
 PKG_UPDATES_READY=$(pkg version -vRL= | grep -c '<')
 if [ "$PKG_UPDATES_READY" -gt 0 ]; then
-	PKG_UPDATES=$PKG_UPDATES_READY
+	PKG_UPDATES_PKGS=$(pkg version -vRL= | grep '<' | awk '{print $1}')
 fi
 
 # set genmon icons and tooltip, and notify if updates exist
-if [ "$FREEBSD_UPDATES" -eq 1 ] || [ "$PKG_UPDATES" -gt 0 ]; then
+if [ "$FREEBSD_UPDATES" -eq 1 ] || [ "$PKG_UPDATES_READY" -gt 0 ]; then
 	ICON=$ICON_UPDATES_AVAILABLE
 	TOOL="<b>Updates are available</b>\n\n"
-	TOOL="${TOOL}<small>base = $FREEBSD_UPDATES\npkg  = $PKG_UPDATES</small>"
+	TOOL="${TOOL}<small>base = $FREEBSD_UPDATES\n\n"
+	TOOL="${TOOL}$PKG_UPDATES_PKGS</small>"
 	notify-send -i "$ICON_NOTIFY" "System Status" "Updates are available"
 else
 	ICON=$ICON_UPTODATE

@@ -38,7 +38,7 @@ FREEBSD_UPDATES=No
 PKG_UPDATES=0
 
 # get freebsd updates information
-#sudo freebsd-update --not-running-from-cron fetch > /dev/null
+sudo freebsd-update --not-running-from-cron fetch > /dev/null
 FREEBSD_UPDATES_READY=$(sudo freebsd-update updatesready)
 if ! echo "$FREEBSD_UPDATES_READY" | grep -q "No updates are available to install"; then
 	FREEBSD_UPDATES=Yes

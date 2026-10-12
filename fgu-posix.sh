@@ -14,6 +14,9 @@ ICON_UPTODATE="freebsd-nu"
 # icon to use in notification bubble when notifying of updates
 ICON_NOTIFY="freebsd-ua"
 #
+# custom icon for terminal window (full path to png file)
+WIN_ICON="$HOME/.icons/freebsd-daemon.png"
+#
 # location of secondary and tertiary execution files
 FGU2="/tmp/fgu2.sh"
 FGU3="/tmp/fgu3.sh"
@@ -43,7 +46,7 @@ xfce4-terminal --disable-server -T 'System Update' \\
 PID=\$!
 WID=\$(timeout 5 xdotool search --sync --onlyvisible --pid "\$PID" | head -n 1)
 if [ -n "\$WID" ]; then
-	xseticon -id "\$WID" "\$HOME/.icons/freebsd-daemon.png"
+	xseticon -id "\$WID" "$WIN_ICON"
 fi
 EOF
 chmod +x "$FGU3"

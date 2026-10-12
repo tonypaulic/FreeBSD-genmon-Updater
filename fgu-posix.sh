@@ -86,7 +86,7 @@ fi
 
 # do the genmon
 printf '<icon>%s</icon>\n' "$ICON"
-printf '<iconclick>%s</iconclick>' "$FGU3"
+printf '<iconclick>%s</iconclick>\n' "$FGU3"
 printf '<tool>%b</tool>\n' "$TOOL"
 
 exit 0

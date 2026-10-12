@@ -15,6 +15,10 @@ ICON_NOTIFY="freebsd-ua"
 # custom icon for terminal window (full path to png file)
 WIN_ICON="$HOME/.icons/freebsd-daemon.png"
 #
+# terminal color options (foreground and background)
+FG="#FF7F7F"
+BG="#000000"
+#
 # location of secondary and tertiary execution files
 FGU2="/tmp/fgu2.sh"
 FGU3="/tmp/fgu3.sh"
@@ -40,7 +44,7 @@ chmod +x "$FGU2"
 cat << EOF > "$FGU3"
 #!/bin/sh
 xfce4-terminal --disable-server -T 'System Update' \\
-	--color-bg '#000000' --color-text '#FF7F7F' -e "$FGU2" &
+	--color-bg '$BG' --color-text '$FG' -e "$FGU2" &
 PID=\$!
 WID=\$(timeout 5 xdotool search --sync --onlyvisible --pid "\$PID" | head -n 1)
 if [ -n "\$WID" ]; then
@@ -54,7 +58,7 @@ FREEBSD_UPDATES=No
 PKG_UPDATES=0
 
 # get freebsd updates information
-sudo freebsd-update --not-running-from-cron fetch > /dev/null
+#sudo freebsd-update --not-running-from-cron fetch > /dev/null
 FREEBSD_UPDATES_READY=$(sudo freebsd-update updatesready)
 if ! echo "$FREEBSD_UPDATES_READY" | grep -q "No updates are available to install"; then
 	FREEBSD_UPDATES=Yes

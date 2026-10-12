@@ -5,10 +5,8 @@
 ##############################################################
 # CONFIGURABLE ITEMS
 #
-# panel icon to use when updates are available
+# panel icon to use to indicate update status
 ICON_UPDATES_AVAILABLE="freebsd-ua"
-#
-# panel icon to use when system is up to date
 ICON_UPTODATE="freebsd-nu"
 #
 # icon to use in notification bubble when notifying of updates

@@ -19,7 +19,7 @@ FGU2="/tmp/fgu2.sh"
 ##############################################################
 
 # find the genmon plugin id for the refresh event
-PLUGIN_ID=$(xfconf-query -c xfce4-panel -lv | grep fgu | awk '{print $1}' | tr -dc '0-9')
+PLUGIN_ID=$(xfconf-query -c xfce4-panel -lv | grep $(basename $0) | awk '{print $1}' | tr -dc '0-9')
 
 # create secondary execution file to run update script and refresh plugin
 cat << EOF > "$FGU2"

@@ -48,6 +48,7 @@ fi
 EOF
 chmod +x "$FGU3"
 
+# set default values for update counts
 FREEBSD_UPDATES=No
 PKG_UPDATES=0
 

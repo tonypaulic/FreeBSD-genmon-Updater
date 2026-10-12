@@ -14,8 +14,9 @@ ICON_UPTODATE="freebsd-nu"
 # icon to use in notification bubble when notifying of updates
 ICON_NOTIFY="freebsd-ua"
 #
-# location of secondary execution file
+# location of secondary and tertiary execution files
 FGU2="/tmp/fgu2.sh"
+FGU3="/tmp/fgu3.sh"
 ##############################################################
 
 # find the genmon plugin id for the refresh event
@@ -33,6 +34,19 @@ xfce4-panel --plugin-event=genmon-${PLUGIN_ID}:refresh:bool:true
 exit 0
 EOF
 chmod +x "$FGU2"
+
+# create a tertiary file to run iconclick with command and also change icon using xseticon
+cat << EOF > "$FGU3"
+#!/bin/sh
+xfce4-terminal --disable-server -T 'System Update' \\
+	--color-bg '#000000' --color-text '#FF7F7F' -e "$FGU2" &
+PID=\$!
+WID=\$(timeout 5 xdotool search --sync --onlyvisible --pid "\$PID" | head -n 1)
+if [ -n "\$WID" ]; then
+	xseticon -id "\$WID" "\$HOME/.icons/freebsd-daemon.png"
+fi
+EOF
+chmod +x "$FGU3"
 
 FREEBSD_UPDATES=No
 PKG_UPDATES=0
@@ -66,8 +80,7 @@ fi
 
 # do the genmon
 printf '<icon>%s</icon>\n' "$ICON"
-printf '<iconclick>xfce4-terminal -T %s --color-bg %s --color-text %s --icon update -e %s</iconclick>\n' \
-	"'System Update'" "'#000000'" "'#FF7F7F'" "$FGU2"
+printf '<iconclick>%s</iconclick>' "$FGU3"
 printf '<tool>%b</tool>\n' "$TOOL"
 
 exit 0

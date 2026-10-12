@@ -72,7 +72,7 @@ if [ "$PKG_UPDATES_READY" -gt 0 ]; then
 fi
 
 # set genmon icons and tooltip, and notify if updates exist
-if [ "$FREEBSD_UPDATES" -eq 1 ] || [ "$PKG_UPDATES_READY" -gt 0 ]; then
+if [ "$FREEBSD_UPDATES" == "Yes" ] || [ "$PKG_UPDATES_READY" -gt 0 ]; then
 	ICON=$ICON_UPDATES_AVAILABLE
 	TOOL="<b>Updates are available</b>\n\n"
 	TOOL="${TOOL}<small>base = $FREEBSD_UPDATES\n\n"

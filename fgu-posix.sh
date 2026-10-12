@@ -1,6 +1,6 @@
 #!/bin/sh
 # genmon update notifier and processor (POSIX sh)
-# requires: xfce4-genmon-plugin
+# requires: xfce4-genmon-plugin xfce4-terminal xdotool xseticon
 
 ##############################################################
 # CONFIGURABLE ITEMS
